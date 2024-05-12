@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Cakes Shop</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body class="bod">
+
+<br>
+<span sec:authorize="hasRole('USER')" class="nav">&nbsp;&nbsp;&nbsp;Статус: пользователь&nbsp;&nbsp;&nbsp;</span>
+<span sec:authorize="hasRole('ADMIN')" class="nav">&nbsp;&nbsp;&nbsp;Статус: администратор&nbsp;&nbsp;&nbsp;</span>
+
+<form class="link" th:action="@{/logout}" method="post" style="display: inline;">
+    <button class="linkbutton" type="submit">&nbsp;&nbsp;Exit&nbsp;&nbsp;</button>
+</form>
+
+<h1>Cakes Shop</h1>
+<img th:src="@{/css/logo.jpg}" alt=""/>
+<br>
+<p></p>
+<br>
+<span class="rev">Revenue: </span><span class="rev" th:text="${revenue}"></span>
+<br>
+<h2>All cakes:</h2>
+
+<table class="tab">
+    <tr>
+        <th>Название</th>
+        <th>Вес</th>
+        <th>Каллорийность</th>
+        <th>Цена</th>
+    </tr>
+    <tr th:each="сake: ${cakes}">
+        <td th:text="${сake.name}"></td>
+        <td th:text="${сake.weight}"></td>
+        <td th:text="${сake.calorific}"></td>
+        <td th:text="${сake.price}"></td>
+        <td><a th:href="@{cake-sell/{name}(name=${сake.name})}">Sell</a></td>
+    </tr>
+</table>
+
+<br>
+<br>
+
+<h3>Add new cake:</h3>
+<form action="/admin-profile" method="post">
+    Название: <input class="inp" required type="text" name="name"><br/>
+    Вес: <input class="inp" required type="number" name="weight"><br/>
+    Каллорийность: <input class="inp" required type="number" step="any" name="calorific"><br/>
+    Цена: <input class="inp" required type="number" step="any" name="price"><br/>
+    <button class="enter" type="submit">Add</button>
+</form>
+</body>
+</html>
